@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hagrid_QuikTrip.District;
+using Hagrid_QuikTrip.Districts;
 using Hagrid_QuikTrip.Stores;
 using Hagrid_QuikTrip.Employees;
 using System.Collections.Generic;
