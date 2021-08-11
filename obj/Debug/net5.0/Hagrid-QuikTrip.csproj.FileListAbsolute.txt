@@ -1,0 +1,5 @@
+C:\Users\honey\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.csproj.AssemblyReference.cache
+C:\Users\honey\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\honey\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.AssemblyInfoInputs.cache
+C:\Users\honey\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.AssemblyInfo.cs
+C:\Users\honey\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.csproj.CoreCompileInputs.cache
