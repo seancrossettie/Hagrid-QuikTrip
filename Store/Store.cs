@@ -15,12 +15,12 @@ namespace Hagrid_QuikTrip.Store
         public double QuarterlySales { get; set; } = 0;
         public double YearlySales { get; set; } = 0;
 
-        public Store( int storeID )
+        public Store(int storeID)
         {
             StoreID = storeID;
         }
 
-        public Store( int storeID, int districtID)
+        public Store(int storeID, int districtID)
         {
             StoreID = storeID;
             DistrictID = districtID;

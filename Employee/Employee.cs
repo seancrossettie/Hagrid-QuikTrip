@@ -15,10 +15,8 @@ namespace Hagrid_QuikTrip.Employee
         public double RetailQuarterlySales { get; set; } = 0;
         public double RetailYearlySales { get; set; } = 0;
 
-        public Employee(string name, int employeeID)
+        public Employee()
         {
-            Name = name;
-            EmployeeID = employeeID;
         }
     }
 }

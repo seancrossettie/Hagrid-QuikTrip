@@ -22,7 +22,5 @@ namespace Hagrid_QuikTrip.District
         {
             _districts.Add(district);
         }
-
-
     }
 }
