@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hagrid_QuikTrip.Store
+namespace Hagrid_QuikTrip.Stores
 {
     class Store
     {

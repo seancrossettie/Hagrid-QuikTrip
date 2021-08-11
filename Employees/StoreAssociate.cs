@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hagrid_QuikTrip.Employee
+namespace Hagrid_QuikTrip.Employees
 {
-    class AssistantManager : Employee
+    class StoreAssociate : Employee
     {
         public int StoreID { get; set; }
-        public AssistantManager(string name, int employeeID, int storeID)
+
+        public StoreAssociate(string name, int employeeID, int storeID)
         {
             Name = name;
             EmployeeID = employeeID;
