@@ -184,6 +184,7 @@ namespace Hagrid_QuikTrip
             Store storeItem;
             if (int.TryParse(input, out storeID))
             {
+                // get store by selecting by store ID
                 storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
                 if (storeItem != null)
                 {
@@ -309,10 +310,10 @@ namespace Hagrid_QuikTrip
                 SalesGenerator(employees, stores, ref quit, ref pause); ;
             },   // close first Action
 
-                () =>
-                {
-                    MainMenu(ref count, ref quit, ref pause, districts, stores, employees);
-                }   //close second Action
+            () =>
+            {
+                MainMenu(ref count, ref quit, ref pause, districts, stores, employees);
+            }   //close second Action
 
             ); //close parallel.invoke
             employees.GetEmployees().ForEach(empl => Console.WriteLine("Sales for {0} are {1,5:C}", empl.Name, empl.RetailQuarterlySales));
