@@ -15,6 +15,7 @@ namespace Hagrid_QuikTrip
 
         static double RandomDollars(int lower, int upper)
         {
+            // Generate random dollar amount between lower and upper amount in cents
             Random random = new Random();
             return (double)random.Next(lower, upper) / 100;
         }
@@ -33,6 +34,7 @@ namespace Hagrid_QuikTrip
                     var type = employee.GetType().Name;
                     if (!pause)
                     {
+                        // Find out if this is a store associates or an asstant manager - different types
                         double randomSale = RandomDollars(lower, upper);
                         if (type == "StoreAssociate")
                         {
@@ -58,17 +60,6 @@ namespace Hagrid_QuikTrip
                     // Reset quarterly sales, since we are accumulating at the employee level.
                     store.QuarterlySales = 0;
                     store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
-                }
-
-                foreach (var employee in employeeList)
-                {
-                    var type = employee.GetType().Name;
-                    if (type == "StoreAssociate")
-                    {
-                        var tempEmployee = (StoreAssociate)employee;
-                        stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID).QuarterlySales += tempEmployee.RetailQuarterlySales;
-
-                    }
                 }
             }
         }
