@@ -306,14 +306,14 @@ namespace Hagrid_QuikTrip
             var employees = new EmployeeRepository();
             SampleData(districts, stores, employees);
             Parallel.Invoke(() =>
-            {
-                SalesGenerator(employees, stores, ref quit, ref pause); ;
-            },   // close first Action
+                {
+                    SalesGenerator(employees, stores, ref quit, ref pause); ;
+                },   // close first Action
 
-            () =>
-            {
-                MainMenu(ref count, ref quit, ref pause, districts, stores, employees);
-            }   //close second Action
+                () =>
+                {
+                    MainMenu(ref count, ref quit, ref pause, districts, stores, employees);
+                }   //close second Action
 
             ); //close parallel.invoke
             employees.GetEmployees().ForEach(empl => Console.WriteLine("Sales for {0} are {1,5:C}", empl.Name, empl.RetailQuarterlySales));
