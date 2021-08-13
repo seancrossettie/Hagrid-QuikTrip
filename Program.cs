@@ -176,32 +176,10 @@ namespace Hagrid_QuikTrip
                     {
                         // Add quarterly sales data to yearly totals, reset quarterly sales to zero.
                         Console.Write("Submitting quarterly sales data...\n");
-                        // If this is the first quarterly report, the yearly total will equal the quarterly total
-                        if (storeItem.GasCurrentYearlySales <= storeItem.GasCurrentQuarterlySales)
-                        {
-                            storeItem.GasCurrentYearlySales = storeItem.GasCurrentQuarterlySales;
-                            storeItem.GasCurrentQuarterlySales = 0;
-
-                        }
-                        else
-                        // Otherwise, add the quarterly sales to the yearly total and reset quarterly to zero
-                        {
-                            storeItem.GasCurrentYearlySales += storeItem.GasCurrentQuarterlySales;
-                            storeItem.GasCurrentQuarterlySales = 0;
-
-                        }
-                        // If this is the first quarterly report, the yearly total will equal the quarterly total
-                        if (storeItem.YearlySales <= storeItem.QuarterlySales)
-                        {
-                            storeItem.YearlySales = storeItem.QuarterlySales;
-                            storeItem.QuarterlySales = 0;
-                        }
-                        else
-                        // Otherwise, add the quarterly sales to the yearly total and reset quarterly to zero
-                        {
-                            storeItem.YearlySales += storeItem.QuarterlySales;
-                            storeItem.QuarterlySales = 0;
-                        }
+                        storeItem.GasCurrentYearlySales = storeItem.GasCurrentQuarterlySales;
+                        storeItem.GasCurrentQuarterlySales = 0;
+                        storeItem.YearlySales = storeItem.QuarterlySales;
+                        storeItem.QuarterlySales = 0;
 
                         Console.WriteLine("Updated data for store # {0}", storeItem.StoreID);
                         Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
