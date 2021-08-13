@@ -39,27 +39,37 @@ namespace Hagrid_QuikTrip
                         if (type == "StoreAssociate")
                         {
                             var tempEmployee = (StoreAssociate)employee;
-                            stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID).QuarterlySales += randomSale;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
-
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales < employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
                         }
                         else if (type == "AssistantManager")
                         {
                             var tempEmployee = (AssistantManager)employee;
-                            stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID).QuarterlySales += randomSale;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales < employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
                         }
-
                     }
-
                 }
                 Thread.Sleep(1000);
 
                 foreach (var store in stores.GetStores())
                 {
-                    // Reset quarterly sales, since we are accumulating at the employee level.
-                    store.QuarterlySales = 0;
+                    // Add gas sales.
                     store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
+                    if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
+                    {
+                        store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
+                    }
                 }
             }
         }
@@ -139,6 +149,72 @@ namespace Hagrid_QuikTrip
                 else Console.WriteLine("Invalid Store selection.");
             }
         }
+        static void QuarterlyReport(StoreRepository stores)
+        {
+            Console.WriteLine("Submit Quarterly Sales: Enter Store Id:\n");
+            stores.GetStores().ForEach(store => Console.WriteLine("Store # {0}", store.StoreID));
+            int storeID;
+            string input;
+            ConsoleKeyInfo inputKey;
+            Store storeItem;
+            input = Console.ReadLine();
+            if (int.TryParse(input, out storeID))
+            {
+                storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
+                if (storeItem != null)
+                {
+                    Console.WriteLine("Sales data for store # {0}:", storeItem.StoreID);
+                    Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
+                    Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
+                    Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
+                    Console.WriteLine("Retail sales for current year: {0:C}\n", storeItem.YearlySales);
+                    Console.WriteLine("Submit quarterly data?  Enter 'y' to submit");
+
+                    inputKey = Console.ReadKey(true);
+                    Console.Write('\n');
+                    if (inputKey.KeyChar == 'y' || inputKey.KeyChar == 'Y')
+                    {
+                        // Add quarterly sales data to yearly totals, reset quarterly sales to zero.
+                        Console.Write("Submitting quarterly sales data...\n");
+                        // If this is the first quarterly report, the yearly total will equal the quarterly total
+                        if (storeItem.GasCurrentYearlySales <= storeItem.GasCurrentQuarterlySales)
+                        {
+                            storeItem.GasCurrentYearlySales = storeItem.GasCurrentQuarterlySales;
+                            storeItem.GasCurrentQuarterlySales = 0;
+
+                        }
+                        else
+                        // Otherwise, add the quarterly sales to the yearly total and reset quarterly to zero
+                        {
+                            storeItem.GasCurrentYearlySales += storeItem.GasCurrentQuarterlySales;
+                            storeItem.GasCurrentQuarterlySales = 0;
+
+                        }
+                        // If this is the first quarterly report, the yearly total will equal the quarterly total
+                        if (storeItem.YearlySales <= storeItem.QuarterlySales)
+                        {
+                            storeItem.YearlySales = storeItem.QuarterlySales;
+                            storeItem.QuarterlySales = 0;
+                        }
+                        else
+                        // Otherwise, add the quarterly sales to the yearly total and reset quarterly to zero
+                        {
+                            storeItem.YearlySales += storeItem.QuarterlySales;
+                            storeItem.QuarterlySales = 0;
+                        }
+
+                        Console.WriteLine("Updated data for store # {0}", storeItem.StoreID);
+                        Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
+                        Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
+                        Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
+                        Console.WriteLine("Retail sales for current year: {0:C}\n", storeItem.YearlySales);
+                    }
+                    else Console.WriteLine("Quarterly sales not submitted");
+                }
+                else Console.WriteLine("Invalid Store selection.");
+            }
+        }
+
 
         static void AddSales(StoreRepository stores, EmployeeRepository employees, ref bool pause)
         {
@@ -149,7 +225,8 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("Please choose an option below:");
                 Console.WriteLine("1. Enter Employee Sale");
                 Console.WriteLine("2. Enter Gas Sale");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Submit Quarterly Data ");
+                Console.WriteLine("4. Exit");
                 Console.WriteLine();
                 Console.Write("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
@@ -166,6 +243,11 @@ namespace Hagrid_QuikTrip
                         pause = false;
                         break;
                     case '3':
+                        pause = true;
+                        QuarterlyReport(stores);
+                        pause = false;
+                        break;
+                    case '4':
                         quit = true;
                         break;
                 }
@@ -384,7 +466,6 @@ namespace Hagrid_QuikTrip
                 }   //close second Action
 
             ); //close parallel.invoke
-            employees.GetEmployees().ForEach(empl => Console.WriteLine("Sales for {0} are {1,5:C}", empl.Name, empl.RetailQuarterlySales));
         }
     }
 }
