@@ -176,10 +176,10 @@ namespace Hagrid_QuikTrip
                     {
                         // Add quarterly sales data to yearly totals, reset quarterly sales to zero.
                         Console.Write("Submitting quarterly sales data...\n");
-                        storeItem.GasCurrentYearlySales = storeItem.GasCurrentQuarterlySales;
-                        storeItem.GasCurrentQuarterlySales = 0;
-                        storeItem.YearlySales = storeItem.QuarterlySales;
-                        storeItem.QuarterlySales = 0;
+                            storeItem.GasCurrentYearlySales += storeItem.GasCurrentQuarterlySales;
+                            storeItem.GasCurrentQuarterlySales = 0;
+                            storeItem.YearlySales += storeItem.QuarterlySales;
+                            storeItem.QuarterlySales = 0;
 
                         Console.WriteLine("Updated data for store # {0}", storeItem.StoreID);
                         Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
