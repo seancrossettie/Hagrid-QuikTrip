@@ -214,6 +214,11 @@ namespace Hagrid_QuikTrip
             Console.WriteLine("Calling Add Store\n");
         }
 
+        static void AddDistrict()
+        {
+            Console.WriteLine("Calling Add Distrtict\n");
+        }
+
         static void SampleData(DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
             District districtObj;
@@ -224,7 +229,7 @@ namespace Hagrid_QuikTrip
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
             for (int i = 0; i < districtNames.Length; i++)
             {
-                districtObj = new District("Middle Tennessee", i);
+                districtObj = new District(districtNames[i], i);
                 districts.SaveNewDistrict(districtObj);
             }
 
@@ -283,7 +288,34 @@ namespace Hagrid_QuikTrip
                         AddEmployee();
                         break;
                     case '5':
-                        AddStore();
+                        Console.WriteLine("Please choose an option below:");
+                        Console.WriteLine("1. Add a Store");
+                        Console.WriteLine("2. Add a District");
+                        var storeOrDistrict = Console.ReadLine();
+                        if(storeOrDistrict == "1")
+                        {
+
+                          AddStore();
+                        }
+                        else if(storeOrDistrict == "2")
+                        {
+                            Console.WriteLine("Add a new district.");
+
+                            Console.WriteLine("District Name:");
+                            var districtName = Console.ReadLine();
+                            if (districtName != "")
+                            {
+                                var randomNumber = new Random();
+                                var districtID = randomNumber.Next(5000, 10000);
+                                var newDistrict = new District(districtName, districtID);
+                                districts.SaveNewDistrict(newDistrict);
+                                districts.GetDistricts().ForEach(district => Console.WriteLine($"The district name is {district.Name} and its ID is {district.DistrictID}"));
+                            }
+
+                        } else
+                        {
+                            Console.WriteLine("Invalid choice");
+                        }
                         break;
                     case '6':
                         quit = true;

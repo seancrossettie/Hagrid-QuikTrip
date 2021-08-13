@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\jmapl\\.nuget\\packages\\": {}
+    "C:\\Users\\honey\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jmapl\\Workspace\\GroupProjects\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
+      "projectUniqueName": "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
       "projectName": "Hagrid-QuikTrip",
-      "projectPath": "C:\\Users\\jmapl\\Workspace\\GroupProjects\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
-      "packagesPath": "C:\\Users\\jmapl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jmapl\\Workspace\\GroupProjects\\Hagrid-QuikTrip\\obj\\",
+      "projectPath": "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
+      "packagesPath": "C:\\Users\\honey\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\honey\\Hagrid-QuikTrip\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jmapl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\honey\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -28,7 +28,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\jmapl\\Downloads\\NuGet": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -61,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }
