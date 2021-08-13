@@ -42,7 +42,7 @@ namespace Hagrid_QuikTrip
                             Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
                             employeeStore.QuarterlySales += randomSale;
-                            if (employeeStore.YearlySales < employeeStore.QuarterlySales)
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
                             {
                                 employeeStore.YearlySales = employeeStore.QuarterlySales;
                             }
@@ -53,7 +53,7 @@ namespace Hagrid_QuikTrip
                             Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
                             employeeStore.QuarterlySales += randomSale;
-                            if (employeeStore.YearlySales < employeeStore.QuarterlySales)
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
                             {
                                 employeeStore.YearlySales = employeeStore.QuarterlySales;
                             }
