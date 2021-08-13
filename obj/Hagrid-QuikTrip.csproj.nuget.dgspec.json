@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj": {}
+    "C:\\Users\\seanc\\source\\repos\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj": {}
   },
   "projects": {
-    "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj": {
+    "C:\\Users\\seanc\\source\\repos\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
+        "projectUniqueName": "C:\\Users\\seanc\\source\\repos\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
         "projectName": "Hagrid-QuikTrip",
-        "projectPath": "C:\\Users\\honey\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
-        "packagesPath": "C:\\Users\\honey\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\honey\\Hagrid-QuikTrip\\obj\\",
+        "projectPath": "C:\\Users\\seanc\\source\\repos\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
+        "packagesPath": "C:\\Users\\seanc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\seanc\\source\\repos\\Hagrid-QuikTrip\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\honey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\seanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

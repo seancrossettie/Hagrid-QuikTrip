@@ -172,7 +172,7 @@ namespace Hagrid_QuikTrip
             } // while (!quit)
         }
         #endregion
-
+        
         static void StoreReport(StoreRepository stores)
         {
             string input;
@@ -200,10 +200,45 @@ namespace Hagrid_QuikTrip
             exitKey = Console.ReadKey(true);
         }
 
-        static void DistrictReport()
+        static void DistrictReport(DistrictRepository districts)
         {
-            Console.WriteLine("Calling District Report\n");
+            string input;
+            ConsoleKeyInfo exit;
+
+            double randomQuarterly = RandomDollars(0, 25000);
+            double randomYearly = RandomDollars(0, 10000000);
+
+            Console.WriteLine();
+            
+            districts.GetDistricts().ForEach(district => {
+                Console.WriteLine($"{district.Name} ID #: {district.DistrictID}");
+                district.QuarterlyDistrictSales = randomQuarterly;
+                district.YearlyDistrictSales = randomYearly;
+            });
+            Console.WriteLine();
+            Console.WriteLine("\r\nEnter a District ID: ");
+            input = Console.ReadLine();
+
+            int districtID;
+            District district;
+
+            if (int.TryParse(input, out districtID))
+            {
+                district = districts.GetDistricts().FirstOrDefault(dist => dist.DistrictID == districtID);
+                if (district !=null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{district.Name}");
+                    Console.WriteLine("--------------------");
+                    Console.WriteLine($"Quarterly Sales for this district: ${district.QuarterlyDistrictSales}");
+                    Console.WriteLine($"Yearly Sales for this district: ${district.YearlyDistrictSales}");
+                }
+                Console.WriteLine();
+                Console.WriteLine("Hit any key to exit district report");
+                exit = Console.ReadKey(true);
+            }
         }
+
         static void AddEmployee()
         {
             Console.WriteLine("Calling Add Employee\n");
@@ -229,9 +264,10 @@ namespace Hagrid_QuikTrip
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
             for (int i = 0; i < districtNames.Length; i++)
             {
-                districtObj = new District(districtNames[i], i);
+                districtObj = new District(districtNames[i] , i);
                 districts.SaveNewDistrict(districtObj);
             }
+
 
             // Populate initial list of stores
             int j = 0;
@@ -271,7 +307,7 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("5. Add a Store/District");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine();
-                Console.Write("\r\nEnter an option: ");
+                Console.WriteLine("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
                 switch (inputKey.KeyChar)
                 {
@@ -282,7 +318,7 @@ namespace Hagrid_QuikTrip
                         StoreReport(stores);
                         break;
                     case '3':
-                        DistrictReport();
+                        DistrictReport(districts);
                         break;
                     case '4':
                         AddEmployee();
