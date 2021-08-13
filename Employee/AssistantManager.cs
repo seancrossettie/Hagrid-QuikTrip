@@ -9,11 +9,16 @@ namespace Hagrid_QuikTrip.Employee
     class AssistantManager : Employee
     {
         public int StoreID { get; set; }
-        public AssistantManager(string name, int employeeID, int storeID)
+		public string Name { get; set; }
+		public int DistrictID { get; set; }
+        public int EmployeeID { get; set; }
+
+		public AssistantManager(string name, int employeeID, int storeID, int districtID)
         {
             Name = name;
             EmployeeID = employeeID;
-            StoreID = storeID;
+			StoreID = storeID;
+            DistrictID = districtID;
         }
-    }
+	}
 }

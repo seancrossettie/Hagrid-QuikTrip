@@ -13,7 +13,9 @@ namespace Hagrid_QuikTrip.Employee
         // it's just another piece of code to replace and refactor nbd
         static List<Employee> _employee = new List<Employee>();
 
-        public List<Employee> GetEmployees()
+		
+
+		public List<Employee> GetEmployees()
         {
             return _employee;
         }
