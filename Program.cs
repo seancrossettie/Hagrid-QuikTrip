@@ -172,7 +172,7 @@ namespace Hagrid_QuikTrip
             } // while (!quit)
         }
         #endregion
-
+        
         static void StoreReport(StoreRepository stores)
         {
             string input;
@@ -200,10 +200,25 @@ namespace Hagrid_QuikTrip
             exitKey = Console.ReadKey(true);
         }
 
-        static void DistrictReport()
+        static void DistrictReport(DistrictRepository districts)
         {
-            Console.WriteLine("Calling District Report\n");
+            Console.WriteLine();
+            ConsoleKeyInfo districtKey;
+            string input;
+
+            districts.GetDistricts().ForEach(district => Console.WriteLine($"{district.Name} ID #: {district.DistrictID}"));
+            Console.WriteLine();
+            Console.WriteLine("\r\nEnter a District ID: ");
+            
+            bool quit = false;
+            while (!quit)
+            {
+                
+                districtKey = Console.ReadKey(true);
+            }
+
         }
+
         static void AddEmployee()
         {
             Console.WriteLine("Calling Add Employee\n");
@@ -224,9 +239,10 @@ namespace Hagrid_QuikTrip
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
             for (int i = 0; i < districtNames.Length; i++)
             {
-                districtObj = new District("Middle Tennessee", i);
+                districtObj = new District(districtNames[i] , i);
                 districts.SaveNewDistrict(districtObj);
             }
+
 
             // Populate initial list of stores
             int j = 0;
@@ -266,7 +282,7 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("5. Add a Store/District");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine();
-                Console.Write("\r\nEnter an option: ");
+                Console.WriteLine("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
                 switch (inputKey.KeyChar)
                 {
@@ -277,7 +293,7 @@ namespace Hagrid_QuikTrip
                         StoreReport(stores);
                         break;
                     case '3':
-                        DistrictReport();
+                        DistrictReport(districts);
                         break;
                     case '4':
                         AddEmployee();
