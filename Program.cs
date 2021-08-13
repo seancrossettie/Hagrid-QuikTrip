@@ -47,6 +47,17 @@ namespace Hagrid_QuikTrip
                                 employeeStore.YearlySales = employeeStore.QuarterlySales;
                             }
                         }
+                        else if (type == "StoreManager")
+                        {
+                            var tempEmployee = (StoreManager)employee;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
+                            employee.RetailQuarterlySales += randomSale;
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
+                        }
                         else if (type == "AssistantManager")
                         {
                             var tempEmployee = (AssistantManager)employee;
@@ -233,7 +244,7 @@ namespace Hagrid_QuikTrip
         }
         #endregion
         
-        static void StoreReport(StoreRepository stores)
+        static void StoreReport(StoreRepository stores, EmployeeRepository employees)
         {
             string input;
             ConsoleKeyInfo exitKey;
@@ -248,6 +259,49 @@ namespace Hagrid_QuikTrip
                 storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
                 if (storeItem != null)
                 {
+                    var managerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreManager");
+                    var managerTypeList = new List<StoreManager>();
+                    foreach(var employee in managerList)
+                    {
+                        managerTypeList.Add((StoreManager)employee);
+                    }
+                    var manager = managerTypeList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+                    if (manager != null)
+                    {
+                        Console.WriteLine("Store Manager: {0}", manager.Name);
+                        Console.WriteLine("Retail Sales: {0:C}", manager.RetailQuarterlySales);
+                    }
+                    else if (manager == null) Console.WriteLine("No manager for this store.");
+                    var assistantManagerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "AssistantManager");
+                    var assistantManagerTypeList = new List<AssistantManager>();
+                    foreach (var employee in assistantManagerList)
+                    {
+                        assistantManagerTypeList.Add((AssistantManager)employee);
+                    }
+                    var assistantManager = assistantManagerTypeList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+                    if(assistantManager != null)
+                    {
+                        Console.WriteLine("Assistant Manager: {0}", assistantManager.Name);
+                        Console.WriteLine("Retail Sales: {0:C}", assistantManager.RetailQuarterlySales);
+                    }
+                    else if (assistantManager == null) Console.WriteLine("No assistant manager for this store.");
+
+                    var employeeList =  employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreAssociate");
+                    List<StoreAssociate> storeAssociates = new List<StoreAssociate>();
+                    foreach(var employee in employeeList)
+                    {
+                        storeAssociates.Add((StoreAssociate)employee);
+                    }
+                    foreach (var employee in storeAssociates)
+                    {
+                        if(employee.StoreID == storeItem.StoreID)
+                        {
+                            Console.WriteLine("Associate: {0}", employee.Name);
+                            Console.WriteLine("Retail Sales: {0:C}", employee.RetailQuarterlySales);
+                        }
+                    }
+
+
                     Console.WriteLine("Sales report for Store #: {0}", storeItem.StoreID);
                     Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
                     Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
@@ -349,6 +403,11 @@ namespace Hagrid_QuikTrip
                 j++;
                 if (j == stores.GetStores().Count) j = 0;
             }
+            StoreManager manager1 = new StoreManager("Gilligan", 5, 0);
+            employees.SaveNewEmployee(manager1);
+            AssistantManager assistantManager1 = new AssistantManager("Mary Ann", 6, 0);
+            employees.SaveNewEmployee(assistantManager1);
+            
         }
 
         static void MainMenu(ref int count, ref bool quit, ref bool pause, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
@@ -375,7 +434,7 @@ namespace Hagrid_QuikTrip
                         AddSales(stores, employees, ref pause);
                         break;
                     case '2':
-                        StoreReport(stores);
+                        StoreReport(stores, employees);
                         break;
                     case '3':
                         DistrictReport(districts);
