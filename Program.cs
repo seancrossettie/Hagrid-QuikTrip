@@ -202,21 +202,40 @@ namespace Hagrid_QuikTrip
 
         static void DistrictReport(DistrictRepository districts)
         {
-            Console.WriteLine();
-            ConsoleKeyInfo districtKey;
             string input;
+            ConsoleKeyInfo exit;
 
-            districts.GetDistricts().ForEach(district => Console.WriteLine($"{district.Name} ID #: {district.DistrictID}"));
+            double randomQuarterly = RandomDollars(0, 25000);
+            double randomYearly = RandomDollars(0, 10000000);
+
+            Console.WriteLine();
+            
+            districts.GetDistricts().ForEach(district => {
+                Console.WriteLine($"{district.Name} ID #: {district.DistrictID}");
+                district.QuarterlyDistrictSales = randomQuarterly;
+                district.YearlyDistrictSales = randomYearly;
+            });
             Console.WriteLine();
             Console.WriteLine("\r\nEnter a District ID: ");
-            
-            bool quit = false;
-            while (!quit)
-            {
-                
-                districtKey = Console.ReadKey(true);
-            }
+            input = Console.ReadLine();
 
+            int districtID;
+            District district;
+
+            if (int.TryParse(input, out districtID))
+            {
+                district = districts.GetDistricts().FirstOrDefault(dist => dist.DistrictID == districtID);
+                if (district !=null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{district.Name}");
+                    Console.WriteLine("--------------------");
+                    Console.WriteLine($"Quarterly Sales for this district: ${district.QuarterlyDistrictSales}");
+                    Console.WriteLine($"Yearly Sales for this district: ${district.YearlyDistrictSales}");
+                }
+                Console.WriteLine("Hit any key to exit district report");
+                exit = Console.ReadKey(true);
+            }
         }
 
         static void AddEmployee()
