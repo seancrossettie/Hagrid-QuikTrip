@@ -71,7 +71,7 @@ namespace Hagrid_QuikTrip
                         }
                     }
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 foreach (var store in stores.GetStores())
                 {
@@ -127,6 +127,16 @@ namespace Hagrid_QuikTrip
                 else if (type == "AssistantManager")
                 {
                     var tempEmployee = (AssistantManager)employeeItem;
+                    Console.Write("Enter Retail Sale amount: ");
+                    if (doubleInput(ref amount))
+                    {
+                        tempEmployee.RetailQuarterlySales += amount;
+                    }
+                    else Console.WriteLine("Invalid input.");
+                }
+                else if (type == "StoreManager")
+                {
+                    var tempEmployee = (StoreManager)employeeItem;
                     Console.Write("Enter Retail Sale amount: ");
                     if (doubleInput(ref amount))
                     {
@@ -259,26 +269,17 @@ namespace Hagrid_QuikTrip
                 storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
                 if (storeItem != null)
                 {
-                    var managerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreManager");
-                    var managerTypeList = new List<StoreManager>();
-                    foreach(var employee in managerList)
-                    {
-                        managerTypeList.Add((StoreManager)employee);
-                    }
-                    var manager = managerTypeList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+                    var managerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreManager").Cast<StoreManager>();
+                    var manager = managerList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
                     if (manager != null)
                     {
                         Console.WriteLine("Store Manager: {0}", manager.Name);
                         Console.WriteLine("Retail Sales: {0:C}", manager.RetailQuarterlySales);
                     }
                     else if (manager == null) Console.WriteLine("No manager for this store.");
-                    var assistantManagerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "AssistantManager");
-                    var assistantManagerTypeList = new List<AssistantManager>();
-                    foreach (var employee in assistantManagerList)
-                    {
-                        assistantManagerTypeList.Add((AssistantManager)employee);
-                    }
-                    var assistantManager = assistantManagerTypeList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+
+                    var assistantManagerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "AssistantManager").Cast<AssistantManager>();
+                    var assistantManager = assistantManagerList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
                     if(assistantManager != null)
                     {
                         Console.WriteLine("Assistant Manager: {0}", assistantManager.Name);
@@ -286,13 +287,8 @@ namespace Hagrid_QuikTrip
                     }
                     else if (assistantManager == null) Console.WriteLine("No assistant manager for this store.");
 
-                    var employeeList =  employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreAssociate");
-                    List<StoreAssociate> storeAssociates = new List<StoreAssociate>();
-                    foreach(var employee in employeeList)
-                    {
-                        storeAssociates.Add((StoreAssociate)employee);
-                    }
-                    foreach (var employee in storeAssociates)
+                    var AssociatesList =  employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreAssociate").Cast<StoreAssociate>();
+                    foreach (var employee in AssociatesList)
                     {
                         if(employee.StoreID == storeItem.StoreID)
                         {
@@ -302,7 +298,7 @@ namespace Hagrid_QuikTrip
                     }
 
 
-                    Console.WriteLine("Sales report for Store #: {0}", storeItem.StoreID);
+                    Console.WriteLine("Sales report for Store #{0}", storeItem.StoreID);
                     Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
                     Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
                     Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
@@ -403,9 +399,9 @@ namespace Hagrid_QuikTrip
                 j++;
                 if (j == stores.GetStores().Count) j = 0;
             }
-            StoreManager manager1 = new StoreManager("Gilligan", 5, 0);
+            StoreManager manager1 = new StoreManager("Mary Ann", 5, 0);
             employees.SaveNewEmployee(manager1);
-            AssistantManager assistantManager1 = new AssistantManager("Mary Ann", 6, 0);
+            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0);
             employees.SaveNewEmployee(assistantManager1);
             
         }
