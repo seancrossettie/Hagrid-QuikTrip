@@ -233,6 +233,7 @@ namespace Hagrid_QuikTrip
                     Console.WriteLine($"Quarterly Sales for this district: ${district.QuarterlyDistrictSales}");
                     Console.WriteLine($"Yearly Sales for this district: ${district.YearlyDistrictSales}");
                 }
+                Console.WriteLine();
                 Console.WriteLine("Hit any key to exit district report");
                 exit = Console.ReadKey(true);
             }
