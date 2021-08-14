@@ -389,21 +389,6 @@ namespace Hagrid_QuikTrip
             }
         }
 
-        static void AddEmployee()
-        {
-            Console.WriteLine("Calling Add Employee\n");
-        }
-
-        static void AddStore()
-        {
-            Console.WriteLine("Calling Add Store\n");
-        }
-
-        static void AddDistrict()
-        {
-            Console.WriteLine("Calling Add Distrtict\n");
-        }
-
         static void SampleData(DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
             District districtObj;
@@ -441,7 +426,7 @@ namespace Hagrid_QuikTrip
             }
             StoreManager manager1 = new StoreManager("Mary Ann", 5, 0);
             employees.SaveNewEmployee(manager1);
-            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0);
+            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0, 1);
             employees.SaveNewEmployee(assistantManager1);
             
         }
@@ -496,8 +481,10 @@ namespace Hagrid_QuikTrip
         }
 
 
-        static void MainMenu(ref int count, ref bool quit, ref bool pause, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
+        static void MainMenu(ref int count, ref bool quit, ref bool pause, ref bool simulator, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
+            ConsoleKeyInfo inputKey;
+
             Console.WriteLine("Welcome to the QuikTrip Sales Management System");
             Console.WriteLine();
             while (!quit)
@@ -524,7 +511,7 @@ namespace Hagrid_QuikTrip
                         DistrictReport(districts, stores);
                         break;
                     case '4':
-                        AddEmployee();
+                        AddNewEmployee(districts, stores, employees);
                         break;
                     case '5':
                         Console.WriteLine("Please choose an option below:");
