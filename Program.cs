@@ -455,9 +455,21 @@ namespace Hagrid_QuikTrip
             else if (assistOrDistrict == "2")
              {
                 Console.WriteLine("Create new District Manager");
-               // DistrictID = Console.ReadLine();
+                Console.WriteLine("Enter District Manager Name");
+                string Name;
+                Name = Console.ReadLine();
+                var randomNumber = new Random();
+                var DistrictID = randomNumber.Next(1, 80);
 
+                Console.WriteLine("Enter Employee ID");
+                employee.GetEmployees().ForEach(employee => Console.WriteLine($" EmployeeID {employee.EmployeeID}"));
+                var EmployeeName = Console.ReadLine();
+                var EmployeeID = int.Parse(EmployeeName);
 
+                var newDistrictEmployee = new DistrictManager(Name, EmployeeID, DistrictID);
+                employee.SaveNewEmployee(newDistrictEmployee);
+
+                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} and District ID of {DistrictID}");
 
             }
 
