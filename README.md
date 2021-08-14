@@ -1,6 +1,6 @@
 # Hagrid-QuikTripConsole
 # Overview
- This C# console app allows users to manage the QuikTrip store database of stores, employees, and districts by adding and totaling sales. It was designed in a group setting as an exercise in understanding C#.
+ This C# console app allows users to manage the QuikTrip store database of stores, employees, and districts by adding and totaling sales. It was designed in a group setting as an exercise in C# at during our time at NSS.
 
 ## User Story
 As a user, I can:
