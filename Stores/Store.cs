@@ -15,11 +15,6 @@ namespace Hagrid_QuikTrip.Stores
         public double QuarterlySales { get; set; } = 0;
         public double YearlySales { get; set; } = 0;
 
-        public Store(int storeID)
-        {
-            StoreID = storeID;
-        }
-
         public Store(int storeID, int districtID)
         {
             StoreID = storeID;
