@@ -45,10 +45,6 @@ namespace Hagrid_QuikTrip
                                 Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                                 employee.RetailQuarterlySales += randomSale;
                                 employeeStore.QuarterlySales += randomSale;
-                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
-                                {
-                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
-                                }
                             }
                             else if (type == "StoreManager")
                             {
@@ -56,10 +52,6 @@ namespace Hagrid_QuikTrip
                                 Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                                 employee.RetailQuarterlySales += randomSale;
                                 employeeStore.QuarterlySales += randomSale;
-                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
-                                {
-                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
-                                }
                             }
                             else if (type == "AssistantManager")
                             {
@@ -67,10 +59,6 @@ namespace Hagrid_QuikTrip
                                 Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                                 employee.RetailQuarterlySales += randomSale;
                                 employeeStore.QuarterlySales += randomSale;
-                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
-                                {
-                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
-                                }
                             }
                         }
                     }
@@ -82,10 +70,6 @@ namespace Hagrid_QuikTrip
                         {
                             // Add gas sales.
                             store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
-                            if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
-                            {
-                                store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
-                            }
                         }
                     }
                 } // if simulator is running
@@ -569,7 +553,7 @@ namespace Hagrid_QuikTrip
         static void Main(string[] args)
         {
             bool quit = false;
-            bool pause = true;
+            bool pause = false;
             bool simulator = false;
             int count = 0;
             var districts = new DistrictRepository();
