@@ -73,13 +73,16 @@ namespace Hagrid_QuikTrip
                 }
                 Thread.Sleep(2000);
 
-                foreach (var store in stores.GetStores())
+                if (!pause)
                 {
-                    // Add gas sales.
-                    store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
-                    if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
+                    foreach (var store in stores.GetStores())
                     {
-                        store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
+                        // Add gas sales.
+                        store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
+                        if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
+                        {
+                            store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
+                        }
                     }
                 }
             }
@@ -97,10 +100,11 @@ namespace Hagrid_QuikTrip
             return returnVal;
         }
 
-        static void RetailSale(EmployeeRepository employees)
+        static void RetailSale(EmployeeRepository employees, StoreRepository stores)
         {
             string input;
             double amount = 0;
+            Store employeeStore;
             int employeeID;
             Employee employeeItem;
 
@@ -116,10 +120,15 @@ namespace Hagrid_QuikTrip
                 if (type == "StoreAssociate")
                 {
                     var tempEmployee = (StoreAssociate)employeeItem;
-                    Console.Write("Enter Retail Sale amount: ");
-                    if (doubleInput(ref amount))
+                    employeeStore = stores.GetStores().FirstOrDefault(store => store.StoreID == tempEmployee.StoreID);
+                    if (employeeStore != null)
                     {
-                        tempEmployee.RetailQuarterlySales += amount;
+                        Console.Write("Enter Retail Sale amount: ");
+                        if (doubleInput(ref amount))
+                        {
+                            tempEmployee.RetailQuarterlySales += amount;
+                            employeeStore.QuarterlySales += amount;
+                        }
                     }
                     else Console.WriteLine("Invalid input.");
 
@@ -127,20 +136,30 @@ namespace Hagrid_QuikTrip
                 else if (type == "AssistantManager")
                 {
                     var tempEmployee = (AssistantManager)employeeItem;
-                    Console.Write("Enter Retail Sale amount: ");
-                    if (doubleInput(ref amount))
+                    employeeStore = stores.GetStores().FirstOrDefault(store => store.StoreID == tempEmployee.StoreID);
+                    if (employeeStore != null)
                     {
-                        tempEmployee.RetailQuarterlySales += amount;
+                        Console.Write("Enter Retail Sale amount: ");
+                        if (doubleInput(ref amount))
+                        {
+                            tempEmployee.RetailQuarterlySales += amount;
+                            employeeStore.QuarterlySales += amount;
+                        }
                     }
                     else Console.WriteLine("Invalid input.");
                 }
                 else if (type == "StoreManager")
                 {
                     var tempEmployee = (StoreManager)employeeItem;
-                    Console.Write("Enter Retail Sale amount: ");
-                    if (doubleInput(ref amount))
+                    employeeStore = stores.GetStores().FirstOrDefault(store => store.StoreID == tempEmployee.StoreID);
+                    if (employeeStore != null)
                     {
-                        tempEmployee.RetailQuarterlySales += amount;
+                        Console.Write("Enter Retail Sale amount: ");
+                        if (doubleInput(ref amount))
+                        {
+                            tempEmployee.RetailQuarterlySales += amount;
+                            employeeStore.QuarterlySales += amount;
+                        }
                     }
                     else Console.WriteLine("Invalid input.");
                 }
@@ -233,18 +252,18 @@ namespace Hagrid_QuikTrip
                 {
                     case '1':
                         pause = true;
-                        RetailSale(employees);
-                        pause = false;
+                        RetailSale(employees, stores);
+                        //pause = false;
                         break;
                     case '2':
                         pause = true;
                         GasSale(stores);
-                        pause = false;
+                        //pause = false;
                         break;
                     case '3':
                         pause = true;
                         QuarterlyReport(stores);
-                        pause = false;
+                        //pause = false;
                         break;
                     case '4':
                         quit = true;
@@ -493,7 +512,7 @@ namespace Hagrid_QuikTrip
         static void Main(string[] args)
         {
             bool quit = false;
-            bool pause = false;
+            bool pause = true;
             int count = 0;
             var districts = new DistrictRepository();
             var stores = new StoreRepository();
