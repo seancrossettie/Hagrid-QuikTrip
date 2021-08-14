@@ -27,16 +27,17 @@ namespace Hagrid_QuikTrip
             int lower = 200;
             int upper= 2500;
 
-            while (!quit)
+            while (!quit) //stops when we exit the program
             {
-                if (simulator)
+                if (simulator) // toggles the sales generator on and off while the thread continues
                 {
                     foreach (var employee in employeeList)
                     {
                         var type = employee.GetType().Name;
                         if (!pause)
                         {
-                            // Find out if this is a store associates or an asstant manager - different types
+                            // Find out if this is a store associates or an asstant manager or manager - different types
+                            // Then we add the random sale.
                             double randomSale = RandomDollars(lower, upper);
                             if (type == "StoreAssociate")
                             {
@@ -73,7 +74,7 @@ namespace Hagrid_QuikTrip
                             }
                         }
                     }
-                    Thread.Sleep(2000);
+                    Thread.Sleep(2000); // 
 
                     if (!pause)
                     {
@@ -88,7 +89,7 @@ namespace Hagrid_QuikTrip
                         }
                     }
                 } // if simulator is running
-            }
+            } // quit
         }
 
         #region Sales
