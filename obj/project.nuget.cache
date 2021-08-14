@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Hx4lE5mYakj95xhy+9NhyDXNkq3SKm9+/RKG9mAwnUZ0yf5+CTgItGVAyAFdtKTtzOBkGcrqUH2PToGGglbEDw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jonat\\source\\repos\\groupProjects\\Hagrid-QuikTrip\\Hagrid-QuikTrip.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\jonat\\source\\repos\\groupProjects\\Hagrid-QuikTrip\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
+}

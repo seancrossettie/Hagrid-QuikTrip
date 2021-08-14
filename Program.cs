@@ -373,21 +373,6 @@ namespace Hagrid_QuikTrip
             }
         }
 
-        static void AddEmployee()
-        {
-            Console.WriteLine("Calling Add Employee\n");
-        }
-
-        static void AddStore()
-        {
-            Console.WriteLine("Calling Add Store\n");
-        }
-
-        static void AddDistrict()
-        {
-            Console.WriteLine("Calling Add Distrtict\n");
-        }
-
         static void SampleData(DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
             District districtObj;
@@ -425,10 +410,67 @@ namespace Hagrid_QuikTrip
             }
             StoreManager manager1 = new StoreManager("Mary Ann", 5, 0);
             employees.SaveNewEmployee(manager1);
-            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0);
+            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0, 1);
             employees.SaveNewEmployee(assistantManager1);
             
         }
+
+        // Add Employee
+        static void AddNewEmployee(DistrictRepository districts, StoreRepository stores, EmployeeRepository employee)
+        {
+            Console.Clear();
+            Console.WriteLine("Please Choose option Below");
+            Console.WriteLine("1. Add a Assistant Manager");
+            Console.WriteLine("2. Add a District Manager");
+            var assistOrDistrict = Console.ReadLine();
+
+            if (assistOrDistrict == "1")
+            {
+                Console.WriteLine("Add a new Assistant Manager");
+
+                Console.WriteLine("Enter Assistant Manager Name");
+                string Name;
+                Name = Console.ReadLine();
+                var randomNumber = new Random();
+                var EmployeeID = randomNumber.Next(1, 80);
+
+                Console.WriteLine("Enter StoreID");
+                stores.GetStores().ForEach(store => Console.WriteLine($"StoreID: {store.StoreID}"));
+                var StoreName = Console.ReadLine();
+                var StoreID = int.Parse(StoreName);
+
+
+                var newAssistantEmployee = new AssistantManager(Name, StoreID, EmployeeID);
+                
+                    employee.SaveNewEmployee(newAssistantEmployee);
+                
+                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} StoreID of {StoreID} .");
+
+            } 
+            else if (assistOrDistrict == "2")
+             {
+                Console.WriteLine("Create new District Manager");
+                Console.WriteLine("Enter District Manager Name");
+                string Name;
+                Name = Console.ReadLine();
+                var randomNumber = new Random();
+                var DistrictID = randomNumber.Next(1, 80);
+
+                Console.WriteLine("Enter Employee ID");
+                employee.GetEmployees().ForEach(employee => Console.WriteLine($" EmployeeID {employee.EmployeeID}"));
+                var EmployeeName = Console.ReadLine();
+                var EmployeeID = int.Parse(EmployeeName);
+
+                var newDistrictEmployee = new DistrictManager(Name, EmployeeID, DistrictID);
+                employee.SaveNewEmployee(newDistrictEmployee);
+
+                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} and District ID of {DistrictID}");
+
+            }
+
+
+        }
+
 
         static void MainMenu(ref int count, ref bool quit, ref bool pause, ref bool simulator, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
@@ -460,7 +502,7 @@ namespace Hagrid_QuikTrip
                         DistrictReport(districts, stores);
                         break;
                     case '4':
-                        AddEmployee();
+                        AddNewEmployee(districts, stores, employees);
                         break;
                     case '5':
                         Console.WriteLine("Please choose an option below:");

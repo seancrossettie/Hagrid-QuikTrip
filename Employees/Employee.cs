@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hagrid_QuikTrip.Employees
 {
-    abstract class Employee
+    abstract class Employee 
     {
         public string Name { get; set; }
 
