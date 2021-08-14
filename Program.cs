@@ -377,7 +377,7 @@ namespace Hagrid_QuikTrip
 
             // Populate list of districts
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
-            for (int i = 0; i < districtNames.Length; i++)
+            for (int i = 5000; i < districtNames.Length; i++)
             {
                 districtObj = new District(districtNames[i] , i);
                 districts.SaveNewDistrict(districtObj);
@@ -385,7 +385,7 @@ namespace Hagrid_QuikTrip
 
 
             // Populate initial list of stores
-            int j = 0;
+            int j = 5000;
             for ( int i = 0; i < 4; i++)
             {
                 storeObj = new Store(i,j++);
@@ -458,7 +458,8 @@ namespace Hagrid_QuikTrip
                             var storeID = randomNumber.Next(5000, 10000);
                             var districtID = int.Parse(storeName);
                             var newStore = new Store(storeID, districtID);
-                            if (storeID > 5000)
+                            var DistrictDistrictID = districts.GetDistricts().FirstOrDefault(district => district.DistrictID == districtID);
+                            if (districtID == DistrictDistrictID.DistrictID)
                             {
                                 stores.SaveNewStore(newStore);
                                 stores.GetStores().ForEach(store => Console.WriteLine($"The store ID is {store.StoreID} and its district ID is {store.DistrictID}"));
