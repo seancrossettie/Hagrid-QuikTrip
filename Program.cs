@@ -439,17 +439,12 @@ namespace Hagrid_QuikTrip
                 var StoreName = Console.ReadLine();
                 var StoreID = int.Parse(StoreName);
 
-                Console.WriteLine("Enter District ID");
-                districts.GetDistricts().ForEach(District => Console.WriteLine($"District: {District.Name} ID: {District.DistrictID}"));
-                var DistrictName = Console.ReadLine();
-                var DistrictID = int.Parse(DistrictName);
 
-
-                var newAssistantEmployee = new AssistantManager(Name, StoreID, DistrictID, EmployeeID);
+                var newAssistantEmployee = new AssistantManager(Name, StoreID, EmployeeID);
                 
                     employee.SaveNewEmployee(newAssistantEmployee);
                 
-                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} StoreID of {StoreID} and DistrictID of {DistrictID}.");
+                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} StoreID of {StoreID} .");
 
             } 
             else if (assistOrDistrict == "2")
