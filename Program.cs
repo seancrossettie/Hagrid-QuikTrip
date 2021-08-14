@@ -344,20 +344,15 @@ namespace Hagrid_QuikTrip
             exitKey = Console.ReadKey(true);
         }
 
-        static void DistrictReport(DistrictRepository districts)
+        static void DistrictReport(DistrictRepository districts, StoreRepository stores)
         {
             string input;
             ConsoleKeyInfo exit;
-
-            double randomQuarterly = RandomDollars(0, 25000);
-            double randomYearly = RandomDollars(0, 10000000);
 
             Console.WriteLine();
             
             districts.GetDistricts().ForEach(district => {
                 Console.WriteLine($"{district.Name} ID #: {district.DistrictID}");
-                district.QuarterlyDistrictSales = randomQuarterly;
-                district.YearlyDistrictSales = randomYearly;
             });
             Console.WriteLine();
             Console.WriteLine("\r\nEnter a District ID: ");
@@ -365,12 +360,22 @@ namespace Hagrid_QuikTrip
 
             int districtID;
             District district;
+            IEnumerable<Store> storeTotals;
+
 
             if (int.TryParse(input, out districtID))
             {
                 district = districts.GetDistricts().FirstOrDefault(dist => dist.DistrictID == districtID);
+                storeTotals = stores.GetStores().Where(store => store.DistrictID == districtID);
+
                 if (district !=null)
                 {
+                    foreach (var store in storeTotals)
+                    {
+                        district.QuarterlyDistrictSales += store.GasCurrentQuarterlySales + store.QuarterlySales;
+                        district.YearlyDistrictSales += store.GasCurrentYearlySales + store.YearlySales;
+                    }
+
                     Console.WriteLine();
                     Console.WriteLine($"{district.Name}");
                     Console.WriteLine("--------------------");
@@ -467,7 +472,7 @@ namespace Hagrid_QuikTrip
                         StoreReport(stores, employees);
                         break;
                     case '3':
-                        DistrictReport(districts);
+                        DistrictReport(districts, stores);
                         break;
                     case '4':
                         AddEmployee();
