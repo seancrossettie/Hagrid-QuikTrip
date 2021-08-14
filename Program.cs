@@ -19,7 +19,7 @@ namespace Hagrid_QuikTrip
             Random random = new Random();
             return (double)random.Next(lower, upper) / 100;
         }
-        static void SalesGenerator(EmployeeRepository employees, StoreRepository stores,  ref bool quit, ref bool pause)
+        static void SalesGenerator(EmployeeRepository employees, StoreRepository stores,  ref bool quit, ref bool pause, ref bool simulator)
         {
 
             var employeeList = employees.GetEmployees();
@@ -29,62 +29,65 @@ namespace Hagrid_QuikTrip
 
             while (!quit)
             {
-                foreach (var employee in employeeList)
+                if (simulator)
                 {
-                    var type = employee.GetType().Name;
+                    foreach (var employee in employeeList)
+                    {
+                        var type = employee.GetType().Name;
+                        if (!pause)
+                        {
+                            // Find out if this is a store associates or an asstant manager - different types
+                            double randomSale = RandomDollars(lower, upper);
+                            if (type == "StoreAssociate")
+                            {
+                                var tempEmployee = (StoreAssociate)employee;
+                                Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
+                                employee.RetailQuarterlySales += randomSale;
+                                employeeStore.QuarterlySales += randomSale;
+                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                                {
+                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
+                                }
+                            }
+                            else if (type == "StoreManager")
+                            {
+                                var tempEmployee = (StoreManager)employee;
+                                Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
+                                employee.RetailQuarterlySales += randomSale;
+                                employeeStore.QuarterlySales += randomSale;
+                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                                {
+                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
+                                }
+                            }
+                            else if (type == "AssistantManager")
+                            {
+                                var tempEmployee = (AssistantManager)employee;
+                                Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
+                                employee.RetailQuarterlySales += randomSale;
+                                employeeStore.QuarterlySales += randomSale;
+                                if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                                {
+                                    employeeStore.YearlySales = employeeStore.QuarterlySales;
+                                }
+                            }
+                        }
+                    }
+                    Thread.Sleep(2000);
+
                     if (!pause)
                     {
-                        // Find out if this is a store associates or an asstant manager - different types
-                        double randomSale = RandomDollars(lower, upper);
-                        if (type == "StoreAssociate")
+                        foreach (var store in stores.GetStores())
                         {
-                            var tempEmployee = (StoreAssociate)employee;
-                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
-                            employee.RetailQuarterlySales += randomSale;
-                            employeeStore.QuarterlySales += randomSale;
-                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                            // Add gas sales.
+                            store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
+                            if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
                             {
-                                employeeStore.YearlySales = employeeStore.QuarterlySales;
-                            }
-                        }
-                        else if (type == "StoreManager")
-                        {
-                            var tempEmployee = (StoreManager)employee;
-                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
-                            employee.RetailQuarterlySales += randomSale;
-                            employeeStore.QuarterlySales += randomSale;
-                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
-                            {
-                                employeeStore.YearlySales = employeeStore.QuarterlySales;
-                            }
-                        }
-                        else if (type == "AssistantManager")
-                        {
-                            var tempEmployee = (AssistantManager)employee;
-                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
-                            employee.RetailQuarterlySales += randomSale;
-                            employeeStore.QuarterlySales += randomSale;
-                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
-                            {
-                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                                store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
                             }
                         }
                     }
-                }
-                Thread.Sleep(2000);
-
-                if (!pause)
-                {
-                    foreach (var store in stores.GetStores())
-                    {
-                        // Add gas sales.
-                        store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
-                        if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
-                        {
-                            store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
-                        }
-                    }
-                }
+                } // if simulator is running
             }
         }
 
@@ -234,7 +237,7 @@ namespace Hagrid_QuikTrip
         }
 
 
-        static void AddSales(StoreRepository stores, EmployeeRepository employees, ref bool pause)
+        static void AddSales(StoreRepository stores, EmployeeRepository employees, ref bool pause, ref bool simulator)
         {
             bool quit = false;
             ConsoleKeyInfo inputKey;
@@ -244,7 +247,8 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("1. Enter Employee Sale");
                 Console.WriteLine("2. Enter Gas Sale");
                 Console.WriteLine("3. Submit Quarterly Data ");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Turn on / off sales simulator");
+                Console.WriteLine("5. Exit");
                 Console.WriteLine();
                 Console.Write("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
@@ -253,19 +257,30 @@ namespace Hagrid_QuikTrip
                     case '1':
                         pause = true;
                         RetailSale(employees, stores);
-                        //pause = false;
+                        pause = false;
                         break;
                     case '2':
                         pause = true;
                         GasSale(stores);
-                        //pause = false;
+                        pause = false;
                         break;
                     case '3':
                         pause = true;
                         QuarterlyReport(stores);
-                        //pause = false;
+                        pause = false;
                         break;
                     case '4':
+                        if (simulator)
+                        {
+                            Console.WriteLine("\nSimulator is on.");
+                        }
+                        else Console.WriteLine("\nSimulator is off");
+                        Console.WriteLine("Enter 'y' to turn on simulator, 'n' to turn off simulator");
+                        inputKey = Console.ReadKey(true);
+                        if (inputKey.KeyChar == 'Y' || inputKey.KeyChar == 'y') simulator = true;
+                        else if (inputKey.KeyChar == 'N' || inputKey.KeyChar == 'n') simulator = false;
+                        break;
+                    case '5':
                         quit = true;
                         break;
                 }
@@ -425,7 +440,7 @@ namespace Hagrid_QuikTrip
             
         }
 
-        static void MainMenu(ref int count, ref bool quit, ref bool pause, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
+        static void MainMenu(ref int count, ref bool quit, ref bool pause, ref bool simulator, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
         {
             ConsoleKeyInfo inputKey;
 
@@ -441,12 +456,12 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("5. Add a Store/District");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine();
-                Console.WriteLine("\r\nEnter an option: ");
+                Console.Write("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
                 switch (inputKey.KeyChar)
                 {
                     case '1':
-                        AddSales(stores, employees, ref pause);
+                        AddSales(stores, employees, ref pause, ref simulator);
                         break;
                     case '2':
                         StoreReport(stores, employees);
@@ -513,6 +528,7 @@ namespace Hagrid_QuikTrip
         {
             bool quit = false;
             bool pause = true;
+            bool simulator = false;
             int count = 0;
             var districts = new DistrictRepository();
             var stores = new StoreRepository();
@@ -520,12 +536,12 @@ namespace Hagrid_QuikTrip
             SampleData(districts, stores, employees);
             Parallel.Invoke(() =>
                 {
-                    SalesGenerator(employees, stores, ref quit, ref pause); ;
+                    SalesGenerator(employees, stores, ref quit, ref pause, ref simulator); ;
                 },   // close first Action
 
                 () =>
                 {
-                    MainMenu(ref count, ref quit, ref pause, districts, stores, employees);
+                    MainMenu(ref count, ref quit, ref pause, ref simulator, districts, stores, employees);
                 }   //close second Action
 
             ); //close parallel.invoke
