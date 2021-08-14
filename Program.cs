@@ -412,7 +412,7 @@ namespace Hagrid_QuikTrip
 
             // Populate list of districts
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
-            for (int i = 5000; i < districtNames.Length; i++)
+            for (int i = 0; i < districtNames.Length; i++)
             {
                 districtObj = new District(districtNames[i] , i);
                 districts.SaveNewDistrict(districtObj);
@@ -420,7 +420,7 @@ namespace Hagrid_QuikTrip
 
 
             // Populate initial list of stores
-            int j = 5000;
+            int j = 0;
             for ( int i = 0; i < 4; i++)
             {
                 storeObj = new Store(i,j++);
