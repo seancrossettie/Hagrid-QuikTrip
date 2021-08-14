@@ -449,7 +449,7 @@ namespace Hagrid_QuikTrip
                 
                     employee.SaveNewEmployee(newAssistantEmployee);
                 
-                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} StoreID of {StoreID} and DistrictID of {DistrictID}");
+                Console.WriteLine($"Welcome {Name} you have an Employee ID of {EmployeeID} StoreID of {StoreID} and DistrictID of {DistrictID}.");
 
             } 
             else if (assistOrDistrict == "2")
