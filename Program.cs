@@ -39,27 +39,48 @@ namespace Hagrid_QuikTrip
                         if (type == "StoreAssociate")
                         {
                             var tempEmployee = (StoreAssociate)employee;
-                            stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID).QuarterlySales += randomSale;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
-
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
+                        }
+                        else if (type == "StoreManager")
+                        {
+                            var tempEmployee = (StoreManager)employee;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
+                            employee.RetailQuarterlySales += randomSale;
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
                         }
                         else if (type == "AssistantManager")
                         {
                             var tempEmployee = (AssistantManager)employee;
-                            stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID).QuarterlySales += randomSale;
+                            Store employeeStore = stores.GetStores().First(store => store.StoreID == tempEmployee.StoreID);
                             employee.RetailQuarterlySales += randomSale;
+                            employeeStore.QuarterlySales += randomSale;
+                            if (employeeStore.YearlySales <= employeeStore.QuarterlySales)
+                            {
+                                employeeStore.YearlySales = employeeStore.QuarterlySales;
+                            }
                         }
-
                     }
-
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 foreach (var store in stores.GetStores())
                 {
-                    // Reset quarterly sales, since we are accumulating at the employee level.
-                    store.QuarterlySales = 0;
+                    // Add gas sales.
                     store.GasCurrentQuarterlySales += RandomDollars(200, 4900);
+                    if (store.GasCurrentYearlySales < store.GasCurrentQuarterlySales)
+                    {
+                        store.GasCurrentYearlySales = store.GasCurrentQuarterlySales;
+                    }
                 }
             }
         }
@@ -113,6 +134,16 @@ namespace Hagrid_QuikTrip
                     }
                     else Console.WriteLine("Invalid input.");
                 }
+                else if (type == "StoreManager")
+                {
+                    var tempEmployee = (StoreManager)employeeItem;
+                    Console.Write("Enter Retail Sale amount: ");
+                    if (doubleInput(ref amount))
+                    {
+                        tempEmployee.RetailQuarterlySales += amount;
+                    }
+                    else Console.WriteLine("Invalid input.");
+                }
             }
         }
         static void GasSale(StoreRepository stores)
@@ -139,6 +170,50 @@ namespace Hagrid_QuikTrip
                 else Console.WriteLine("Invalid Store selection.");
             }
         }
+        static void QuarterlyReport(StoreRepository stores)
+        {
+            Console.WriteLine("Submit Quarterly Sales: Enter Store Id:\n");
+            stores.GetStores().ForEach(store => Console.WriteLine("Store # {0}", store.StoreID));
+            int storeID;
+            string input;
+            ConsoleKeyInfo inputKey;
+            Store storeItem;
+            input = Console.ReadLine();
+            if (int.TryParse(input, out storeID))
+            {
+                storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
+                if (storeItem != null)
+                {
+                    Console.WriteLine("Sales data for store # {0}:", storeItem.StoreID);
+                    Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
+                    Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
+                    Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
+                    Console.WriteLine("Retail sales for current year: {0:C}\n", storeItem.YearlySales);
+                    Console.WriteLine("Submit quarterly data?  Enter 'y' to submit");
+
+                    inputKey = Console.ReadKey(true);
+                    Console.Write('\n');
+                    if (inputKey.KeyChar == 'y' || inputKey.KeyChar == 'Y')
+                    {
+                        // Add quarterly sales data to yearly totals, reset quarterly sales to zero.
+                        Console.Write("Submitting quarterly sales data...\n");
+                            storeItem.GasCurrentYearlySales += storeItem.GasCurrentQuarterlySales;
+                            storeItem.GasCurrentQuarterlySales = 0;
+                            storeItem.YearlySales += storeItem.QuarterlySales;
+                            storeItem.QuarterlySales = 0;
+
+                        Console.WriteLine("Updated data for store # {0}", storeItem.StoreID);
+                        Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
+                        Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
+                        Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
+                        Console.WriteLine("Retail sales for current year: {0:C}\n", storeItem.YearlySales);
+                    }
+                    else Console.WriteLine("Quarterly sales not submitted");
+                }
+                else Console.WriteLine("Invalid Store selection.");
+            }
+        }
+
 
         static void AddSales(StoreRepository stores, EmployeeRepository employees, ref bool pause)
         {
@@ -149,7 +224,8 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("Please choose an option below:");
                 Console.WriteLine("1. Enter Employee Sale");
                 Console.WriteLine("2. Enter Gas Sale");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Submit Quarterly Data ");
+                Console.WriteLine("4. Exit");
                 Console.WriteLine();
                 Console.Write("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
@@ -166,14 +242,19 @@ namespace Hagrid_QuikTrip
                         pause = false;
                         break;
                     case '3':
+                        pause = true;
+                        QuarterlyReport(stores);
+                        pause = false;
+                        break;
+                    case '4':
                         quit = true;
                         break;
                 }
             } // while (!quit)
         }
         #endregion
-
-        static void StoreReport(StoreRepository stores)
+        
+        static void StoreReport(StoreRepository stores, EmployeeRepository employees)
         {
             string input;
             ConsoleKeyInfo exitKey;
@@ -188,7 +269,36 @@ namespace Hagrid_QuikTrip
                 storeItem = stores.GetStores().FirstOrDefault(item => item.StoreID == storeID);
                 if (storeItem != null)
                 {
-                    Console.WriteLine("Sales report for Store #: {0}", storeItem.StoreID);
+                    var managerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreManager").Cast<StoreManager>();
+                    var manager = managerList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+                    if (manager != null)
+                    {
+                        Console.WriteLine("Store Manager: {0}", manager.Name);
+                        Console.WriteLine("Retail Sales: {0:C}", manager.RetailQuarterlySales);
+                    }
+                    else if (manager == null) Console.WriteLine("No manager for this store.");
+
+                    var assistantManagerList = employees.GetEmployees().Where(employee => employee.GetType().Name == "AssistantManager").Cast<AssistantManager>();
+                    var assistantManager = assistantManagerList.FirstOrDefault(employee => employee.StoreID == storeItem.StoreID);
+                    if(assistantManager != null)
+                    {
+                        Console.WriteLine("Assistant Manager: {0}", assistantManager.Name);
+                        Console.WriteLine("Retail Sales: {0:C}", assistantManager.RetailQuarterlySales);
+                    }
+                    else if (assistantManager == null) Console.WriteLine("No assistant manager for this store.");
+
+                    var AssociatesList =  employees.GetEmployees().Where(employee => employee.GetType().Name == "StoreAssociate").Cast<StoreAssociate>();
+                    foreach (var employee in AssociatesList)
+                    {
+                        if(employee.StoreID == storeItem.StoreID)
+                        {
+                            Console.WriteLine("Associate: {0}", employee.Name);
+                            Console.WriteLine("Retail Sales: {0:C}", employee.RetailQuarterlySales);
+                        }
+                    }
+
+
+                    Console.WriteLine("Sales report for Store #{0}", storeItem.StoreID);
                     Console.WriteLine("Gas sales for this quarter: {0:C}", storeItem.GasCurrentQuarterlySales);
                     Console.WriteLine("Gas sales for current year: {0:C}", storeItem.GasCurrentYearlySales);
                     Console.WriteLine("Retail sales for this quarter: {0:C}", storeItem.QuarterlySales);
@@ -200,10 +310,45 @@ namespace Hagrid_QuikTrip
             exitKey = Console.ReadKey(true);
         }
 
-        static void DistrictReport()
+        static void DistrictReport(DistrictRepository districts)
         {
-            Console.WriteLine("Calling District Report\n");
+            string input;
+            ConsoleKeyInfo exit;
+
+            double randomQuarterly = RandomDollars(0, 25000);
+            double randomYearly = RandomDollars(0, 10000000);
+
+            Console.WriteLine();
+            
+            districts.GetDistricts().ForEach(district => {
+                Console.WriteLine($"{district.Name} ID #: {district.DistrictID}");
+                district.QuarterlyDistrictSales = randomQuarterly;
+                district.YearlyDistrictSales = randomYearly;
+            });
+            Console.WriteLine();
+            Console.WriteLine("\r\nEnter a District ID: ");
+            input = Console.ReadLine();
+
+            int districtID;
+            District district;
+
+            if (int.TryParse(input, out districtID))
+            {
+                district = districts.GetDistricts().FirstOrDefault(dist => dist.DistrictID == districtID);
+                if (district !=null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{district.Name}");
+                    Console.WriteLine("--------------------");
+                    Console.WriteLine($"Quarterly Sales for this district: ${district.QuarterlyDistrictSales}");
+                    Console.WriteLine($"Yearly Sales for this district: ${district.YearlyDistrictSales}");
+                }
+                Console.WriteLine();
+                Console.WriteLine("Hit any key to exit district report");
+                exit = Console.ReadKey(true);
+            }
         }
+
         static void AddEmployee()
         {
             Console.WriteLine("Calling Add Employee\n");
@@ -229,9 +374,10 @@ namespace Hagrid_QuikTrip
             string[] districtNames = new string[] { "Middle Tennessee", "East Tennessee", "West Tennesee", "Central Kentucky" };
             for (int i = 0; i < districtNames.Length; i++)
             {
-                districtObj = new District(districtNames[i], i);
+                districtObj = new District(districtNames[i] , i);
                 districts.SaveNewDistrict(districtObj);
             }
+
 
             // Populate initial list of stores
             int j = 0;
@@ -253,6 +399,11 @@ namespace Hagrid_QuikTrip
                 j++;
                 if (j == stores.GetStores().Count) j = 0;
             }
+            StoreManager manager1 = new StoreManager("Mary Ann", 5, 0);
+            employees.SaveNewEmployee(manager1);
+            AssistantManager assistantManager1 = new AssistantManager("Gilligan", 6, 0);
+            employees.SaveNewEmployee(assistantManager1);
+            
         }
 
         static void MainMenu(ref int count, ref bool quit, ref bool pause, DistrictRepository districts, StoreRepository stores, EmployeeRepository employees)
@@ -271,7 +422,7 @@ namespace Hagrid_QuikTrip
                 Console.WriteLine("5. Add a Store/District");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine();
-                Console.Write("\r\nEnter an option: ");
+                Console.WriteLine("\r\nEnter an option: ");
                 inputKey = Console.ReadKey(true);
                 switch (inputKey.KeyChar)
                 {
@@ -279,10 +430,10 @@ namespace Hagrid_QuikTrip
                         AddSales(stores, employees, ref pause);
                         break;
                     case '2':
-                        StoreReport(stores);
+                        StoreReport(stores, employees);
                         break;
                     case '3':
-                        DistrictReport();
+                        DistrictReport(districts);
                         break;
                     case '4':
                         AddEmployee();
@@ -359,7 +510,6 @@ namespace Hagrid_QuikTrip
                 }   //close second Action
 
             ); //close parallel.invoke
-            employees.GetEmployees().ForEach(empl => Console.WriteLine("Sales for {0} are {1,5:C}", empl.Name, empl.RetailQuarterlySales));
         }
     }
 }
