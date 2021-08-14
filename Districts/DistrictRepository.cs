@@ -4,25 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hagrid_QuikTrip.Employee
+namespace Hagrid_QuikTrip.Districts
 {
-    class EmployeeRepository
+    class DistrictRepository
     {
         // we're using a static list here instead of a proper database
         // but the general idea still holds up once we cover databases
         // it's just another piece of code to replace and refactor nbd
-        static List<Employee> _employee = new List<Employee>();
+        static List<District> _districts = new List<District>();
 
-		
-
-		public List<Employee> GetEmployees()
+        public List<District> GetDistricts()
         {
-            return _employee;
+            return _districts;
         }
 
-        public void SaveNewEmployee(Employee employee)
+        public void SaveNewDistrict(District district)
         {
-            _employee.Add(employee);
+            _districts.Add(district);
         }
     }
 }

@@ -19,6 +19,7 @@ C:\Users\seanc\source\repos\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.dll
 C:\Users\seanc\source\repos\Hagrid-QuikTrip\bin\Debug\net5.0\ref\Hagrid-QuikTrip.dll
 C:\Users\seanc\source\repos\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.pdb
 C:\Users\seanc\source\repos\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.genruntimeconfig.cache
+<<<<<<< HEAD
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.exe
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.deps.json
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.runtimeconfig.json
@@ -35,3 +36,21 @@ C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagri
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\ref\Hagrid-QuikTrip.dll
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.pdb
 C:\Users\jonat\source\repos\groupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.genruntimeconfig.cache
+=======
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.csproj.AssemblyReference.cache
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.AssemblyInfoInputs.cache
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.AssemblyInfo.cs
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.csproj.CoreCompileInputs.cache
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.dll
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\ref\Hagrid-QuikTrip.dll
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.pdb
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.exe
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.deps.json
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.runtimeconfig.json
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.runtimeconfig.dev.json
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.dll
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\ref\Hagrid-QuikTrip.dll
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\bin\Debug\net5.0\Hagrid-QuikTrip.pdb
+C:\Users\jmapl\Workspace\GroupProjects\Hagrid-QuikTrip\obj\Debug\net5.0\Hagrid-QuikTrip.genruntimeconfig.cache
+>>>>>>> main
