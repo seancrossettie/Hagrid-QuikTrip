@@ -493,7 +493,8 @@ namespace Hagrid_QuikTrip
                             var storeID = randomNumber.Next(5000, 10000);
                             var districtID = int.Parse(storeName);
                             var newStore = new Store(storeID, districtID);
-                            if (storeID > 5000)
+                            var DistrictDistrictID = districts.GetDistricts().FirstOrDefault(district => district.DistrictID == districtID);
+                            if (districtID == DistrictDistrictID.DistrictID)
                             {
                                 stores.SaveNewStore(newStore);
                                 stores.GetStores().ForEach(store => Console.WriteLine($"The store ID is {store.StoreID} and its district ID is {store.DistrictID}"));
