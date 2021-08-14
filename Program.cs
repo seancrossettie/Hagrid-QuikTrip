@@ -445,8 +445,19 @@ namespace Hagrid_QuikTrip
                         var storeOrDistrict = Console.ReadLine();
                         if(storeOrDistrict == "1")
                         {
-
-                          AddStore();
+                            Console.WriteLine("Add a new store.");
+                            Console.WriteLine("Enter the district ID in which the store belongs:");
+                            districts.GetDistricts().ForEach(district => Console.WriteLine($"District: {district.Name} \n ID: {district.DistrictID}"));
+                            var storeName = Console.ReadLine();
+                            var randomNumber = new Random();
+                            var storeID = randomNumber.Next(5000, 10000);
+                            var districtID = int.Parse(storeName);
+                            var newStore = new Store(storeID, districtID);
+                            if (storeID > 5000)
+                            {
+                                stores.SaveNewStore(newStore);
+                                stores.GetStores().ForEach(store => Console.WriteLine($"The store ID is {store.StoreID} and its district ID is {store.DistrictID}"));
+                            }
                         }
                         else if(storeOrDistrict == "2")
                         {
